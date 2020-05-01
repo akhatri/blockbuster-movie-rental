@@ -1,9 +1,13 @@
 // Core
 import React from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 // Components
 import Header from './components/Header';
 import Footer from './components/Footer';
+import MovieList from './components/MovieList';
+import AddMovie from './components/AddMovie';
+import EditMovie from './components/EditMovie';
 
 // Bootstrap JS
 import 'bootstrap';
@@ -13,17 +17,22 @@ import './global.scss'; // we use a custom version of Bootstrap 4 with optional 
 
 function App() {
   return (
-    <div className="App">
-      <div className="site-container">
-        <Header />
-        <div className="site-content">
-          <div className="container my-5">
-            <button className="btn btn-primary">Button</button>
+    <Router>
+      <div className="App">
+        <div className="site-container">
+          <Header />
+          <div className="site-content">
+            <div className="container my-5">
+              <Route path="/" exact component={MovieList} />
+              <Route path="/add" component={AddMovie} />
+              <Route path="/edit/:id" component={EditMovie} />
+              <button className="btn btn-primary">Button</button>
+            </div>
           </div>
+          <Footer />
         </div>
-        <Footer />
       </div>
-    </div>
+    </Router>
   );
 }
 
