@@ -6,7 +6,7 @@ const Header = () => {
   return (
     <header>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <Link to="/" className="navbar-brand" style={{ 'width': '150px' }} >
+        <Link to="/" className="navbar-brand" style={{ 'width': '125px' }} >
           <img className="img-fluid" src="logo.svg"></img>
         </Link>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
