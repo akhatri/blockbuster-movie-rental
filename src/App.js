@@ -26,7 +26,6 @@ function App() {
               <Route path="/" exact component={MovieList} />
               <Route path="/add" component={AddMovie} />
               <Route path="/edit/:id" component={EditMovie} />
-              <button className="btn btn-primary">Button</button>
             </div>
           </div>
           <Footer />
