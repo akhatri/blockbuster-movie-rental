@@ -9,7 +9,7 @@ const movieSchema = new Schema({
     required: true,
     trim: true
   },
-  description: {
+  synopsis: {
     type: String,
     required: true,
     trim: true

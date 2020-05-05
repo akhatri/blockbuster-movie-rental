@@ -10,7 +10,7 @@ class AddMovie extends Component {
       title: '',
       synopsis: '',
       poster: 'https://via.placeholder.com/200/',
-      genres: '',
+      genres: [],
     }
 
     // Event binding
@@ -32,7 +32,7 @@ class AddMovie extends Component {
     reader.readAsDataURL(file);
 
     reader.onload = () => {
-      console.log(reader.result);
+      // console.log(reader.result);
       this.setState({
         poster: reader.result
       })
@@ -48,9 +48,21 @@ class AddMovie extends Component {
     const target = e.target;
     const value = target.value;
     const name = target.name;
+    
     this.setState({
       [name]: value
     })
+
+    if (name == 'genres') {
+
+      // convert to array
+      let genres = value.split(', ');
+
+      this.setState({
+        [name]: genres
+      })  
+    }
+
 
   }
 
@@ -62,6 +74,7 @@ class AddMovie extends Component {
       synopsis: this.state.synopsis,
       poster: this.state.poster,
       genres: this.state.genres
+      // genres: ['action', 'adventure', 'static data']
     }
 
     console.log(movie);
