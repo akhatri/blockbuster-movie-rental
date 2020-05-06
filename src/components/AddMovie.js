@@ -56,10 +56,10 @@ class AddMovie extends Component {
       [name]: value
     })
 
-    if (name == 'genres') {
+    if (name === 'genres') {
 
       // convert to array
-      let genres = value.split(', ');
+      let genres = value.split(',');
 
       this.setState({
         [name]: genres
@@ -82,6 +82,8 @@ class AddMovie extends Component {
     Axios.post('http://localhost:5000/movies/add', movie)
       .then((response) => console.log(response))
       .catch((err) => console.log(err));
+
+      window.location.href = '/';
 
   }  
 
@@ -109,7 +111,7 @@ class AddMovie extends Component {
           <div className="form-group row">
             <label htmlFor="poster" className="col-sm-2 col-form-label">Poster</label>
             <div className="col-sm-10">
-              <img src={this.state.poster} className="img-fluid w-25 rounded" />
+              <img src={this.state.poster} alt="Movie poster" className="img-fluid w-25 rounded" />
               <input id="upload" type="file" className="form-control border-0 px-0" onChange={this.handleImageUpload} />
             </div>
           </div>
