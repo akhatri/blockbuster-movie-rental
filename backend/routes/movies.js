@@ -4,11 +4,11 @@ let Movie = require('../models/movie.model');
 // Get Movies
 router.route('/').get((req, res) => {
 
-    // Retrieve list of movies
-    Movie.find()
-      .then(movies => res.json(movies))
-      .catch(err => res.staus(400).json(`Error: ${err}`));
-  });
+  // Retrieve list of movies
+  Movie.find()
+    .then(movies => res.json(movies))
+    .catch(err => res.staus(400).json(`Error: ${err}`));
+});
 
 // Add Movies
 router
@@ -36,4 +36,19 @@ router
 
   })
 
-  module.exports = router;
+// Delete Movie
+router
+  .route('/delete/:id')
+  .delete( (req, res) => {
+
+    // retreive movie id
+    const id = req.params.id;
+
+    // Find and delete movie based on id
+    Movie.findByIdAndDelete(id)
+      .then(() => res.json(`Movie has been deleted`))
+      .catch( (err) => res.status(400).json(`Error ${err}`));
+
+  });
+
+module.exports = router;

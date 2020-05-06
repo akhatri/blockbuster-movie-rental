@@ -1,6 +1,9 @@
 // Core
 import React, { Component } from 'react';
 
+// Services
+import Axios from 'axios';
+
 class AddMovie extends Component {
 
   constructor(props) {
@@ -74,11 +77,11 @@ class AddMovie extends Component {
       synopsis: this.state.synopsis,
       poster: this.state.poster,
       genres: this.state.genres
-      // genres: ['action', 'adventure', 'static data']
     }
 
-    console.log(movie);
-    console.log('submited, send to Database');
+    Axios.post('http://localhost:5000/movies/add', movie)
+      .then((response) => console.log(response))
+      .catch((err) => console.log(err));
 
   }  
 
