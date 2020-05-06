@@ -1,5 +1,6 @@
 // Core
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 // Services
 import Axios from 'axios';
@@ -66,7 +67,7 @@ class MovieList extends Component {
                     <div className="card-body">
                       <div className="row">
                         <div className="col-4">
-                          <img src={poster} className="img-fluid rounded" alt="Image poster" />
+                          <img src={poster} className="img-fluid rounded" alt="Movie poster" />
                         </div>
                         <div className="col-8">
                           <h5 className="card-title">{title}</h5>
@@ -94,7 +95,7 @@ class MovieList extends Component {
                       </div>
                     </div>
                     <div className="card-footer">
-                      <button className="btn btn-sm btn-warning mr-2">Edit</button>
+                      <Link className="btn btn-sm btn-warning mr-2" to={`/edit/${movie._id}`}>Edit</Link>
                       <button className="btn btn-sm btn-danger" onClick={this.deleteMovie(movie._id)}>Delete</button>
                     </div>
                   </div>

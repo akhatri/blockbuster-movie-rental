@@ -10,6 +10,21 @@ router.route('/').get((req, res) => {
     .catch(err => res.staus(400).json(`Error: ${err}`));
 });
 
+// Get Movie by Id
+router
+  .route('/:id')
+  .get((req, res) => {
+
+    // Get Movie Id
+    const Id = req.params.id;    
+
+    // Retreive movie details by Id
+    Movie.findById(Id)
+      .then(movie => res.json(movie))
+      .catch(err => res.status(400).json(`Error ${err}`));
+
+  });
+
 // Add Movies
 router
   .route('/add')
@@ -36,18 +51,46 @@ router
 
   })
 
+// Edit Movie
+router
+  .route('/update/:id')
+  .post( (req, res) => {
+
+    // Get Movie Id
+    const Id = req.params.id;
+
+    // Get Movie details by Id
+    Movie.findById(Id)
+      .then( (movie) => {
+
+        // Update Movie details
+        movie.title = req.body.title;
+        movie.synopsis = req.body.synopsis;
+        movie.poster = req.body.poster;
+        movie.genres = req.body.genres;
+
+        // Save the selected movie with updated details
+        movie.save()
+          .then( () => res.json(`Movie has been updated!`))
+          .catch(err => res.status(400).json(`Error: ${err}`))
+
+      })
+      .catch( err => res.status(400).json(`Error: ${err}`));
+
+  } )
+
 // Delete Movie
 router
   .route('/delete/:id')
-  .delete( (req, res) => {
+  .delete((req, res) => {
 
-    // retreive movie id
-    const id = req.params.id;
+    // Get Movie Id
+    const Id = req.params.id;
 
     // Find and delete movie based on id
-    Movie.findByIdAndDelete(id)
+    Movie.findByIdAndDelete(Id)
       .then(() => res.json(`Movie has been deleted`))
-      .catch( (err) => res.status(400).json(`Error ${err}`));
+      .catch((err) => res.status(400).json(`Error ${err}`));
 
   });
 
