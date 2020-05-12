@@ -95,7 +95,7 @@ class MovieList extends Component {
                       </div>
                     </div>
                     <div className="card-footer">
-                      <Link className="btn btn-sm btn-warning mr-2" to={`/edit/${movie._id}`}>Edit</Link>
+                      <Link className="btn btn-sm btn-warning mr-2" to={`/edit-movie/${movie._id}`}>Edit</Link>
                       <button className="btn btn-sm btn-danger" onClick={this.deleteMovie(movie._id)}>Delete</button>
                     </div>
                   </div>

@@ -41,3 +41,6 @@ connection.once('open', ()=> {
 const moviesRouter = require('./routes/movies');
 app.use('/movies', moviesRouter);
 
+// customer route
+const customerRouter = require('./routes/customers');
+app.use('/customers', customerRouter);
