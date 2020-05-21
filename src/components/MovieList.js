@@ -48,8 +48,9 @@ class MovieList extends Component {
 
     let searchTerm = e.target.value;
 
+    const movies = [...this.state.movies];
 
-    let filteredMovies = this.state.movies.filter((movie) => {
+    let filteredMovies = movies.filter((movie) => {
 
       let movieName = movie.title.toLowerCase();
       return movieName.includes(searchTerm);
@@ -62,6 +63,7 @@ class MovieList extends Component {
     })
 
     console.log(this.state.movies);
+    console.log(filteredMovies);
 
 
   }
