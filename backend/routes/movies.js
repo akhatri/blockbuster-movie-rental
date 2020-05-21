@@ -16,7 +16,7 @@ router
   .get((req, res) => {
 
     // Get Movie Id
-    const Id = req.params.id;    
+    const Id = req.params.id;
 
     // Retreive movie details by Id
     Movie.findById(Id)
@@ -54,14 +54,14 @@ router
 // Edit Movie
 router
   .route('/update/:id')
-  .post( (req, res) => {
+  .post((req, res) => {
 
     // Get Movie Id
     const Id = req.params.id;
 
     // Get Movie details by Id
     Movie.findById(Id)
-      .then( (movie) => {
+      .then((movie) => {
 
         // Update Movie details
         movie.title = req.body.title;
@@ -71,13 +71,13 @@ router
 
         // Save the selected movie with updated details
         movie.save()
-          .then( () => res.json(`Movie has been updated!`))
+          .then(() => res.json(`Movie has been updated!`))
           .catch(err => res.status(400).json(`Error: ${err}`))
 
       })
-      .catch( err => res.status(400).json(`Error: ${err}`));
+      .catch(err => res.status(400).json(`Error: ${err}`));
 
-  } )
+  })
 
 // Delete Movie
 router
@@ -94,4 +94,46 @@ router
 
   });
 
+// Add Rental Details to Specific Movie
+router
+  .route('/add-rental/:id')
+  .post((req, res) => {
+
+    // Get Movie Id
+    const Id = req.params.id;
+    const rentalDetail = req.body;
+
+    console.log(Id);
+    console.log(req.body);
+
+    Movie.update({ "_id": Id }, {
+      $set: {
+        rentalDetail: rentalDetail
+      },
+      upsert: true
+    })
+      .then(() => res.json(`Movie has been rented`))
+      .catch((err) => res.status(400).json(`Error ${err}`))
+
+  });
+
+// Remove Rental Details to Specific Movie
+router
+  .route('/remove-rental/:id')
+  .post((req, res) => {
+
+    // Get Movie Id
+    const Id = req.params.id;
+
+    Movie.update({ "_id": Id }, {
+      $unset: {
+        rentalDetail: ""
+      }
+    })
+      .then(() => res.json(`Movie has been made available`))
+      .catch((err) => res.status(400).json(`Error ${err}`))
+
+  });  
+
 module.exports = router;
+

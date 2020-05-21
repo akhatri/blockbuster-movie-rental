@@ -17,10 +17,13 @@ class CustomerDetail extends Component {
       email: '',
       address: {},
       rentedMovies: [],
+      availableMovies: [],
       isLoading: true
     }
 
     // Event binding
+    this.rentMovie = this.rentMovie.bind(this);
+    this.returnMovie = this.returnMovie.bind(this);
 
 
   }
@@ -34,7 +37,6 @@ class CustomerDetail extends Component {
 
     Axios.get(`http://localhost:5000/customers/${Id}`)
       .then((res) => {
-        console.log(res.data);
 
         // set state from Server data
         this.setState({
@@ -51,8 +53,25 @@ class CustomerDetail extends Component {
     Axios.get('http://localhost:5000/movies')
       .then((res) => {
 
+        const movies = res.data;
+
+        const availableMovies = movies.filter((movie) => {
+
+          if (!movie.rentalDetail) {
+            return movie
+          }
+
+        });
+
+        const rentedMovies = movies.filter((movie) => {
+          if (movie.rentalDetail) {
+            return movie
+          }
+        })
+
         this.setState({
-          rentedMovies: res.data,
+          availableMovies: availableMovies,
+          rentedMovies: rentedMovies,
           isLoading: false
         })
 
@@ -67,10 +86,43 @@ class CustomerDetail extends Component {
       <div>Loading...</div>
     )
 
-  }  
+  }
 
   // Click Events
   //-------------
+
+  rentMovie = (id) => (e) => {
+    e.preventDefault();
+
+    let Id = this.props.match.params.id;
+
+    const rentalDetail = {
+      customerId: Id,
+      firstname: this.state.firstname,
+      lastname: this.state.lastname,
+      email: this.state.email
+    }
+
+    // Add fields based on Movie Id
+    Axios.post(`http://localhost:5000/movies/add-rental/${id}`, rentalDetail)
+      .then((response) => console.log(response))
+      .catch((err) => console.log(err));
+
+    window.location.href = `customer/${this.props.match.params.id}`;
+
+  }
+
+  returnMovie = (id) => (e) => {
+    e.preventDefault();
+
+    // Remove rental fields based on Movie Id
+    Axios.post(`http://localhost:5000/movies/remove-rental/${id}`)
+      .then((response) => console.log(response))
+      .catch((err) => console.log(err));
+
+    window.location.href = `customer/${this.props.match.params.id}`;
+
+  }
 
   render() {
 
@@ -80,19 +132,19 @@ class CustomerDetail extends Component {
 
         <div className="row">
           <div className="col-5">
-          <h5 className="mb-2">Contact Info</h5>
+            <h5 className="mb-2">Contact Info</h5>
             <div className="card">
-            <div className="card-body">
-              <h5 className="card-title">{this.state.firstname} {this.state.lastname}</h5>
-              <address>
-                <p>{this.state.address.addressLine}</p>
-                <p>{this.state.address.city}</p>
-                <p>{this.state.address.postcode}</p>
-                <p>E: {this.state.email}</p>
-              </address>
-              <p className="card-text"><strong>Address:</strong>{this.state.email}</p>
+              <div className="card-body">
+                <h5 className="card-title">{this.state.firstname} {this.state.lastname}</h5>
+                <address>
+                  <p>{this.state.address.addressLine}</p>
+                  <p>{this.state.address.city}</p>
+                  <p>{this.state.address.postcode}</p>
+                  <p>E: {this.state.email}</p>
+                </address>
+                <p className="card-text"><strong>Address:</strong>{this.state.email}</p>
+              </div>
             </div>
-          </div>
           </div>
           <div className="col-7">
             <h5 className="mb-2">Movies rented</h5>
@@ -118,6 +170,7 @@ class CustomerDetail extends Component {
                                   <h5 className="mt-4 card-title">{title}</h5>
                                 </div>
                               </div>
+                              <button className="btn btn-sm btn-primary" onClick={this.returnMovie(movie._id)}>Return Movie</button>
                             </div>
                           </div>
                         </div>
@@ -128,74 +181,74 @@ class CustomerDetail extends Component {
                   }
 
                 </div>
-              )              
-            }            
+              )
+            }
           </div>
         </div>
 
 
 
         <div>
-        <h2 className="display-4 my-4">Available Movies to Rent</h2>
+          <h2 className="display-4 my-4">Available Movies to Rent</h2>
 
-        {
-          this.state.isLoading ? <this.LoadingContainer /> :
-            (
-              <div className="row row-cols-1 row-cols-md-2">
+          {
+            this.state.isLoading ? <this.LoadingContainer /> :
+              (
+                <div className="row row-cols-1 row-cols-md-2">
 
-                {
+                  {
 
-                  this.state.rentedMovies.length > 0 ? this.state.rentedMovies.map((movie) => {
+                    this.state.availableMovies.length > 0 ? this.state.availableMovies.map((movie) => {
 
-                    const { title, synopsis, poster, genres } = movie;
+                      const { title, synopsis, poster, genres } = movie;
 
-                    return (
-                      <div key={movie._id} className="col mb-4">
-                        <div className="card h-100">
-                          <div className="card-body">
-                            <div className="row">
-                              <div className="col-4">
-                                <img src={poster} className="img-fluid rounded" alt="Movie poster" />
-                              </div>
-                              <div className="col-8">
-                                <h5 className="card-title">{title}</h5>
-                                <p className="card-text">{synopsis}</p>
-                                <div className="mb-2">
-                                  {
-                                    genres.map((genre, index, array) => {
+                      return (
+                        <div key={movie._id} className="col mb-4">
+                          <div className="card h-100">
+                            <div className="card-body">
+                              <div className="row">
+                                <div className="col-4">
+                                  <img src={poster} className="img-fluid rounded" alt="Movie poster" />
+                                </div>
+                                <div className="col-8">
+                                  <h5 className="card-title">{title}</h5>
+                                  <p className="card-text">{synopsis}</p>
+                                  <div className="mb-2">
+                                    {
+                                      genres.map((genre, index, array) => {
 
-                                      // Add margin to items except last item
-                                      let marginClass;
-                                      if (array.length - 1 !== index) {
-                                        marginClass = 'mr-2';
-                                      } else {
-                                        marginClass = '';
-                                      }
+                                        // Add margin to items except last item
+                                        let marginClass;
+                                        if (array.length - 1 !== index) {
+                                          marginClass = 'mr-2';
+                                        } else {
+                                          marginClass = '';
+                                        }
 
-                                      return (
-                                        <span key={index} className={`badge badge-primary ${marginClass}`}>{genre}</span>
-                                      )
+                                        return (
+                                          <span key={index} className={`badge badge-primary ${marginClass}`}>{genre}</span>
+                                        )
 
-                                    })
-                                  }
+                                      })
+                                    }
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="card-footer">
-                            <button className="btn btn-sm btn-success">Rent Movie</button>
+                            <div className="card-footer">
+                              <button className="btn btn-sm btn-success" onClick={this.rentMovie(movie._id)}>Rent Movie</button>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    )
-                  }) : (
-                      <p>No movies available to rent</p>
-                    )
-                }
+                      )
+                    }) : (
+                        <p>No movies available to rent</p>
+                      )
+                  }
 
-              </div>
-            )
-        }          
+                </div>
+              )
+          }
         </div>
 
       </div>

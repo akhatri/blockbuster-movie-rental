@@ -23,6 +23,10 @@ const movieSchema = new Schema({
     required: true,
     trim: true
   },
+  rentalDetail: {
+    type: Object,
+    required: false
+  } 
 
 }, { timestamps: true });
 
