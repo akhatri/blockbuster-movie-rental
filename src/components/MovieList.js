@@ -1,6 +1,6 @@
 // Core
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 // Services
 import Axios from 'axios';
@@ -19,6 +19,7 @@ class MovieList extends Component {
     // Event binding
     this.deleteMovie = this.deleteMovie.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.logout = this.logout.bind(this);
 
   }
 
@@ -86,12 +87,30 @@ class MovieList extends Component {
 
   }
 
+  logout(e) {
+    e.preventDefault();
+
+    const { history } = this.props;
+
+    localStorage.removeItem('LoggedIn');
+
+    history.push('/login');
+
+  }
+
   render() {
+
+    let isLoggedIn = JSON.parse(localStorage.getItem('LoggedIn'));
+
+    if (!isLoggedIn) {
+      return <Redirect to="/login" />
+    }
 
     return (
       <div>
-        <h2 className="display-4 mb-5">Movie Catalogue</h2>
+        <button className="btn btn-primary" type="submit" onClick={this.logout}>Logout</button>
 
+        <h2 className="display-4 mb-5">Movie Catalogue</h2>
 
         <div className="form-group mb-5">
           <input type="search" className="form-control form-control-lg" placeholder="Search Catalogue..." onChange={this.handleSearch} />

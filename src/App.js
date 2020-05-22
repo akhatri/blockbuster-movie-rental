@@ -1,10 +1,11 @@
 // Core
 import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 // Components
 import Header from './components/Header';
 import Footer from './components/Footer';
+import Login from './components/Login';
 
 // Movies
 import MovieList from './components/MovieList';
@@ -31,13 +32,16 @@ function App() {
           <Header />
           <div className="site-content">
             <div className="container my-5">
-              <Route path="/" exact component={MovieList} />
-              <Route path="/add-movie" component={AddMovie} />
-              <Route path="/edit-movie/:id" component={EditMovie} />
-              <Route path="/add-customer" component={AddCustomer} />
-              <Route path="/customer-list" component={CustomerList} />
-              <Route path="/edit-customer/:id" component={EditCustomer} />
-              <Route path="/customer/:id" component={CustomerDetail} />
+              <Switch>
+                <Route path="/login" component={Login} />
+                <Route path="/" exact component={MovieList} />
+                <Route path="/add-movie" component={AddMovie} />
+                <Route path="/edit-movie/:id" component={EditMovie} />
+                <Route path="/add-customer" component={AddCustomer} />
+                <Route path="/customer-list" component={CustomerList} />
+                <Route path="/edit-customer/:id" component={EditCustomer} />
+                <Route path="/customer/:id" component={CustomerDetail} />
+              </Switch>
             </div>
           </div>
           <Footer />
