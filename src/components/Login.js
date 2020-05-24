@@ -12,9 +12,7 @@ class Login extends Component {
       password: '',
       errors: {
         username: '',
-        password: '',
-        isInvalidUsername: false,
-        isInvalidPassword: false,
+        password: ''
       }
     }
 
@@ -33,74 +31,86 @@ class Login extends Component {
       [name]: value
     });
 
+  }
+
+  validateCredentials() {
+
+    let errors = this.state.errors;
+    let formIsValid = true;
+
+    // Username
+    if (this.state.username !== 'admin') {
+
+      errors.username = 'Username is not valid!';
+
+      console.log(errors.username);
+
+      this.setState(prevState => ({
+        errors: {
+          ...prevState.errors,
+          username: errors.username
+        }
+      }));
+
+      formIsValid = false;
+
+    } else {
+
+      // Reset state with empty values
+      this.setState(prevState => ({
+        errors: {
+          ...prevState.errors,
+          username: ''
+        }
+      }))
+
+    }
+
+    // Password
+    if (this.state.password !== 'admin') {
+
+      errors.password = 'Password is not valid!';
+
+      console.log(errors.password);
+
+      this.setState(prevState => ({
+        errors: {
+          ...prevState.errors,
+          password: errors.password
+        }
+      }));
+
+      formIsValid = false;
+
+    } else {
+
+      // Reset state with empty values
+      this.setState(prevState => ({
+        errors: {
+          ...prevState.errors,
+          password: ''
+        }
+      }))
+
+    }
+
+    return formIsValid;
+
 
   }
 
   submitForm(e) {
     e.preventDefault();
 
-    const { history } = this.props;
+    if (this.validateCredentials()) {
 
-    if (this.state.username !== 'admin') {
-
-      this.setState(prevState => ({
-        errors: {
-          ...prevState.errors,
-          username: 'Invalid username',
-          isInvalidUsername: true,
-        }
-
-      }), () => {
-
-        console.log(this.state.errors.isInvalidUsername);
-
-      })
-
-    } else {
-
-      this.setState(prevState => ({
-        errors: {
-          ...prevState.errors,
-          isInvalidUsername: false
-        }
-      }))
-
-    }
-
-    if (this.state.password !== 'admin') {
-
-      this.setState(prevState => ({
-        errors: {
-          ...prevState.errors,
-          password: 'Invalid password',
-          isInvalidPassword: true,
-        }
-      }), () => {
-
-        console.log(this.state.errors.isInvalidPassword);
-
-      })
-
-    } else {
-
-      this.setState(prevState => ({
-        errors: {
-          ...prevState.errors,
-          isInvalidPassword: false
-        }
-      }))
-
-    }
-
-    if (this.state.username === 'admin' && this.state.password === 'admin') {
-
+      console.log('Form is valid')
+      const { history } = this.props;
       localStorage.setItem('LoggedIn', true)
       history.push('/');
 
     } else {
-      this.setState({
-        errorState: true
-      })
+      console.log('Form is invalid');
     }
 
   }
@@ -113,10 +123,6 @@ class Login extends Component {
       return <Redirect to="/" />
     }
 
-    // Error classes
-    let invalidUsername = this.state.errors.isInvalidUsername ? 'is-invalid' : '';
-    let isInvalidPassword = this.state.errors.isInvalidPassword ? 'is-invalid' : '';
-
     return (
       <form className="form-signin" onSubmit={this.submitForm}>
 
@@ -124,11 +130,11 @@ class Login extends Component {
         <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
 
         <label htmlFor="username" className="sr-only">Email address</label>
-        <input type="text" name="username" className={`form-control ${invalidUsername}`} value={this.state.username} placeholder="Username" required autoFocus onChange={this.handleInputChange} />
+        <input type="text" name="username" className={`form-control ${this.state.errors.username.length > 0 ? 'is-invalid' : ''}`} value={this.state.username} placeholder="Username" required autoFocus onChange={this.handleInputChange} />
         <div className="invalid-feedback">{this.state.errors.username}</div>
 
         <label htmlFor="password" className="sr-only">Password</label>
-        <input type="password" name="password" className={`form-control ${isInvalidPassword}`} value={this.state.password} placeholder="Password" required onChange={this.handleInputChange} />
+        <input type="password" name="password" className={`form-control ${this.state.errors.password.length > 0 ? 'is-invalid' : ''}`} value={this.state.password} placeholder="Password" required onChange={this.handleInputChange} />
         <div className="invalid-feedback">{this.state.errors.password}</div>
 
         <button className="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
