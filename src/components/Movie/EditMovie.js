@@ -2,9 +2,9 @@
 import React, { Component } from 'react';
 
 // Services
-import Axios from 'axios';
+import axios from 'axios';
 
-class AddMovie extends Component {
+class EditMovie extends Component {
 
   constructor(props) {
     super(props);
@@ -12,7 +12,7 @@ class AddMovie extends Component {
     this.state = {
       title: '',
       synopsis: '',
-      poster: 'https://via.placeholder.com/200/',
+      poster: '',
       genres: [],
     }
 
@@ -21,8 +21,46 @@ class AddMovie extends Component {
     this.handleImageUpload = this.handleImageUpload.bind(this);
     this.submitMovie = this.submitMovie.bind(this);
 
-   
   }
+
+  // Lifecycle methods
+  //------------------
+
+  componentDidMount() {
+
+    let Id = this.props.match.params.id;
+
+    this.fetchMovie(Id);
+
+  }
+
+  // Functions
+  //----------
+
+  async fetchMovie(Id) {
+
+    const URI = `http://localhost:5000/movies/${Id}`;
+
+    try {
+
+      let res = await axios.get(URI);
+
+      this.setState({
+        title: res.data.title,
+        synopsis: res.data.synopsis,
+        poster: res.data.poster,
+        genres: res.data.genres
+      })
+
+    }
+
+    catch (err) {
+      console.log(err);
+    }
+
+  }
+
+
 
   // Click Events
   //-------------
@@ -35,13 +73,16 @@ class AddMovie extends Component {
     reader.readAsDataURL(file);
 
     reader.onload = () => {
-      // console.log(reader.result);
+
+      console.log(reader.result);
+
       this.setState({
         poster: reader.result
       })
+
     }
 
-    reader.onerror = ()=> {
+    reader.onerror = () => {
       console.log(reader.error);
     };
 
@@ -51,7 +92,7 @@ class AddMovie extends Component {
     const target = e.target;
     const value = target.value;
     const name = target.name;
-    
+
     this.setState({
       [name]: value
     })
@@ -60,16 +101,17 @@ class AddMovie extends Component {
 
       // convert to array
       let genres = value.split(',');
+      console.log(genres);
 
       this.setState({
         [name]: genres
-      })  
+      })
     }
 
 
   }
 
-  submitMovie(e) {
+  async submitMovie(e) {
     e.preventDefault();
 
     const movie = {
@@ -79,25 +121,33 @@ class AddMovie extends Component {
       genres: this.state.genres
     }
 
-    Axios.post('http://localhost:5000/movies/add', movie)
-      .then((response) => console.log(response))
-      .catch((err) => console.log(err));
+    try {
 
-      window.location.href = '/';
+      let response = axios.post(`http://localhost:5000/movies/update/${this.props.match.params.id}`, movie)
+      console.log(response);
 
-  }  
+    }
+
+    catch (err) {
+      console.log(err);
+    }
+
+    window.location.href = '/';
+
+  }
 
 
   render() {
+
     return (
       <div>
-        <h2 className="display-4 mb-5">Add to Movie Catalogue</h2>
+        <h2 className="display-4 mb-5">Edit Movie Catalogue</h2>
         <form onSubmit={this.submitMovie}>
 
           <div className="form-group row">
             <label htmlFor="title" className="col-sm-2 col-form-label">Title</label>
             <div className="col-sm-10">
-              <input type="text" className="form-control" name="title" placeholder="Enter a title" value={this.state.title}  onChange={this.handleInputChange} />
+              <input type="text" className="form-control" name="title" placeholder="Enter a title" value={this.state.title} onChange={this.handleInputChange} />
             </div>
           </div>
 
@@ -111,7 +161,7 @@ class AddMovie extends Component {
           <div className="form-group row">
             <label htmlFor="poster" className="col-sm-2 col-form-label">Poster</label>
             <div className="col-sm-10">
-              <img src={this.state.poster} alt="Movie poster" className="img-fluid w-25 rounded" />
+              <img src={this.state.poster} alt="Movie Poster" className="img-fluid w-25 rounded" />
               <input id="upload" type="file" className="form-control border-0 px-0" onChange={this.handleImageUpload} />
             </div>
           </div>
@@ -119,13 +169,13 @@ class AddMovie extends Component {
           <div className="form-group row">
             <label htmlFor="genres" className="col-sm-2 col-form-label">Genre(s)</label>
             <div className="col-sm-10">
-              <input type="text" className="form-control" name="genres" placeholder="Genre(s)" value={this.state.genres} onChange={this.handleInputChange}/>
+              <input type="text" className="form-control" name="genres" placeholder="Genre(s)" value={this.state.genres} onChange={this.handleInputChange} />
             </div>
           </div>
 
           <div className="form-group row">
             <div className="col-sm-10">
-              <button type="submit" className="btn btn-lg btn-primary">Add Movie</button>
+              <button type="submit" className="btn btn-lg btn-primary">Edit Movie</button>
             </div>
           </div>
 
@@ -136,5 +186,5 @@ class AddMovie extends Component {
   }
 }
 
-export default AddMovie
+export default EditMovie
 

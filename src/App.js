@@ -7,16 +7,16 @@ import BaseLayout from './layouts/Base';
 import LoginLayout from './layouts/Login';
 
 // Components
-import Login from './components/Login';
+import Login from './components/Login/Login';
 
-import MovieList from './components/MovieList';
-import AddMovie from './components/AddMovie';
-import EditMovie from './components/EditMovie';
+import MovieList from './components/Movie/MovieList';
+import AddMovie from './components/Movie/AddMovie';
+import EditMovie from './components/Movie/EditMovie';
 
-import AddCustomer from './components/AddCustomer';
-import CustomerList from './components/CustomerList';
-import EditCustomer from './components/EditCustomer';
-import CustomerDetail from './components/CustomerDetail';
+import AddCustomer from './components/Customer/AddCustomer';
+import CustomerList from './components/Customer/CustomerList';
+import EditCustomer from './components/Customer/EditCustomer';
+import CustomerDetail from './components/Customer/CustomerDetail';
 
 // Bootstrap JS
 import 'bootstrap';

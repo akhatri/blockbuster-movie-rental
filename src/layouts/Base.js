@@ -1,8 +1,8 @@
 import React from 'react';
 
 // Components
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import Header from '../components/Global/Header';
+import Footer from '../components/Global/Footer';
 
 const BaseLayout = ({ children }) => {
   return (

@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 
 // Services
-import Axios from 'axios';
+import axios from 'axios';
 
 class EditCustomer extends Component {
 
@@ -18,8 +18,7 @@ class EditCustomer extends Component {
         city: '',
         postcode: ''
       }
-    }    
-
+    }
 
     // Event binding
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -28,36 +27,48 @@ class EditCustomer extends Component {
 
   }
 
-  // Lifecycle Hooks
-  //-----------------
+  // Lifecycle methods
+  //------------------
 
   componentDidMount() {
 
     let Id = this.props.match.params.id;
 
-    Axios.get(`http://localhost:5000/customers/${Id}`)
-      .then((res) => {
-        console.log(res.data);
-
-        // set state from Server data
-        this.setState({
-          firstname: res.data.firstname,
-          lastname: res.data.lastname,
-          email: res.data.email,
-          // address: res.data.address
-          address: {
-            addressLine: res.data.address.addressLine,
-            city: res.data.address.city,
-            postcode: res.data.address.postcode
-          }           
-        })
-
-      })
-      .catch(err => console.log(err));
+    this.fetchCustomer(Id);
 
   }
 
-  // Click Events
+  // Functions
+  //----------
+
+  async fetchCustomer(Id) {
+
+    const URI = `http://localhost:5000/customers/${Id}`;
+
+    try {
+
+      let res = axios.get(URI);
+
+      // set state from Server data
+      this.setState({
+        firstname: res.data.firstname,
+        lastname: res.data.lastname,
+        email: res.data.email,
+        address: {
+          addressLine: res.data.address.addressLine,
+          city: res.data.address.city,
+          postcode: res.data.address.postcode
+        }
+      })
+
+
+    } catch (err) {
+      console.log(err);
+    }
+
+  }
+
+  // Click events
   //-------------
 
   handleInputChange(e) {
@@ -71,7 +82,7 @@ class EditCustomer extends Component {
 
     console.log(this.state);
 
-  }  
+  }
 
   handleAddressChange(e) {
 
@@ -86,12 +97,10 @@ class EditCustomer extends Component {
       }
     }))
 
-    // console.log(this.state);
-
   }
 
 
-  submiCustomer(e) {
+  async submiCustomer(e) {
     e.preventDefault();
 
     const customer = {
@@ -102,12 +111,17 @@ class EditCustomer extends Component {
         addressLine: this.state.address.addressLine,
         city: this.state.address.city,
         postcode: this.state.address.city
-      }      
+      }
     }
 
-    Axios.post(`http://localhost:5000/customers/update/${this.props.match.params.id}`, customer)
-      .then((response) => console.log(response))
-      .catch((err) => console.log(err));
+    try {
+
+      let response = await axios.post(`http://localhost:5000/customers/update/${this.props.match.params.id}`, customer)
+      console.log(response);
+
+    } catch (err) {
+      console.log(err);
+    }
 
     window.location.href = '/customer-list';
 

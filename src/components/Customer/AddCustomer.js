@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 
 // Services
-import Axios from 'axios';
+import axios from 'axios';
 
 class AddCustomer extends Component {
 
@@ -27,7 +27,7 @@ class AddCustomer extends Component {
 
   }
 
-  // Click Events
+  // Click events
   //-------------
 
   handleInputChange(e) {
@@ -60,7 +60,7 @@ class AddCustomer extends Component {
 
   }
 
-  submitForm(e) {
+  async submitForm(e) {
     e.preventDefault();
 
     const customer = {
@@ -74,13 +74,16 @@ class AddCustomer extends Component {
       }
     }
 
-    console.log(customer);
+    try {
 
-    Axios.post('http://localhost:5000/customers/add', customer)
-      .then((response) => console.log(response))
-      .catch((err) => console.log(err));
+      let response = await axios.post('http://localhost:5000/customers/add', customer);
+      console.log(response);
 
-      window.location.href = '/customer-list';
+    } catch (err) {
+      console.log(err);
+    }
+
+    window.location.href = '/customer-list';
 
   }
 

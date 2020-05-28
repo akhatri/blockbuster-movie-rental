@@ -2,9 +2,9 @@
 import React, { Component } from 'react';
 
 // Services
-import Axios from 'axios';
+import axios from 'axios';
 
-class EditMovie extends Component {
+class AddMovie extends Component {
 
   constructor(props) {
     super(props);
@@ -12,7 +12,7 @@ class EditMovie extends Component {
     this.state = {
       title: '',
       synopsis: '',
-      poster: '',
+      poster: 'https://via.placeholder.com/200/',
       genres: [],
     }
 
@@ -21,33 +21,10 @@ class EditMovie extends Component {
     this.handleImageUpload = this.handleImageUpload.bind(this);
     this.submitMovie = this.submitMovie.bind(this);
 
+   
   }
 
-  // Lifecycle Hooks
-  //-----------------
-
-  componentDidMount() {
-
-    let Id = this.props.match.params.id;
-
-    Axios.get(`http://localhost:5000/movies/${Id}`)
-      .then( (res) => {
-        console.log(res.data);
-
-        // set state from Server data
-        this.setState({
-          title: res.data.title,
-          synopsis: res.data.synopsis,
-          poster: res.data.poster,
-          genres: res.data.genres
-        })
-
-      })
-      .catch(err => console.log(err));
-
-  }
-
-  // Click Events
+  // Click events
   //-------------
 
   handleImageUpload(e) {
@@ -58,13 +35,9 @@ class EditMovie extends Component {
     reader.readAsDataURL(file);
 
     reader.onload = () => {
-
-      console.log(reader.result);
-
       this.setState({
         poster: reader.result
       })
-
     }
 
     reader.onerror = ()=> {
@@ -86,7 +59,6 @@ class EditMovie extends Component {
 
       // convert to array
       let genres = value.split(',');
-      console.log(genres);
 
       this.setState({
         [name]: genres
@@ -96,7 +68,7 @@ class EditMovie extends Component {
 
   }
 
-  submitMovie(e) {
+  async submitMovie(e) {
     e.preventDefault();
 
     const movie = {
@@ -106,20 +78,24 @@ class EditMovie extends Component {
       genres: this.state.genres
     }
 
-    Axios.post(`http://localhost:5000/movies/update/${this.props.match.params.id}`, movie)
-      .then((response) => console.log(response))
-      .catch((err) => console.log(err));
+    try {
 
-      window.location.href = '/';
+    } catch (err) {
+
+      let response = await axios.post('http://localhost:5000/movies/add', movie)
+      console.log(response);
+
+    }
+
+    window.location.href = '/';
 
   }  
 
 
   render() {
-
     return (
       <div>
-        <h2 className="display-4 mb-5">Edit Movie Catalogue</h2>
+        <h2 className="display-4 mb-5">Add to Movie Catalogue</h2>
         <form onSubmit={this.submitMovie}>
 
           <div className="form-group row">
@@ -139,7 +115,7 @@ class EditMovie extends Component {
           <div className="form-group row">
             <label htmlFor="poster" className="col-sm-2 col-form-label">Poster</label>
             <div className="col-sm-10">
-              <img src={this.state.poster} alt="Movie Poster" className="img-fluid w-25 rounded" />
+              <img src={this.state.poster} alt="Movie poster" className="img-fluid w-25 rounded" />
               <input id="upload" type="file" className="form-control border-0 px-0" onChange={this.handleImageUpload} />
             </div>
           </div>
@@ -153,7 +129,7 @@ class EditMovie extends Component {
 
           <div className="form-group row">
             <div className="col-sm-10">
-              <button type="submit" className="btn btn-lg btn-primary">Edit Movie</button>
+              <button type="submit" className="btn btn-lg btn-primary">Add Movie</button>
             </div>
           </div>
 
@@ -164,5 +140,5 @@ class EditMovie extends Component {
   }
 }
 
-export default EditMovie
+export default AddMovie
 

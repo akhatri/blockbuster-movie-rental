@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 // Services
-import Axios from 'axios';
+import axios from 'axios';
 
 class CustomerList extends Component {
 
@@ -19,22 +19,35 @@ class CustomerList extends Component {
 
   }
 
-  // Lifecycle Methods
-  //-------------------
+  // Lifecycle methods
+  //------------------
 
   componentDidMount() {
+    this.fetchData();
+  }
 
-    // Get customer list from Server
-    Axios.get('http://localhost:5000/customers')
-      .then((res) => {
-        console.log(res.data);
 
-        this.setState({
-          customers: res.data
-        })
+  // Functions
+  //----------
 
+
+  async fetchData() {
+
+    const URI = `http://localhost:5000/customers`
+
+    try {
+
+      // Get customer list from Server
+      const res = await axios.get(URI);
+
+      this.setState({
+        customers: res.data
       })
-      .catch((err) => console.log(err));
+
+    } catch (err) {
+      console.log(err);
+    }
+
   }
 
   // Click Events
@@ -45,7 +58,7 @@ class CustomerList extends Component {
     e.preventDefault();
 
     // Delete customer - send selected id to server
-    Axios.delete(`http://localhost:5000/customers/delete/${id}`)
+    axios.delete(`http://localhost:5000/customers/delete/${id}`)
 
     window.location.href = '/customer-list';
 
@@ -66,8 +79,8 @@ class CustomerList extends Component {
           </thead>
           <tbody>
             {
-              this.state.customers.map( (customer, index) => {
-                return(
+              this.state.customers.map((customer, index) => {
+                return (
                   <tr key={customer._id}>
                     <td>
                       <Link to={`/customer/${customer._id}`}>{customer.firstname} {customer.lastname}</Link>
