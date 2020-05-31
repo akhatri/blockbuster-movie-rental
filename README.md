@@ -4,11 +4,11 @@ Blockbuster Movie Rental is a pet project that allows a user to view, add, modif
 
 Being a self-taught developer, we often face the dilemna of 'Tutorial Hell' where all tutorials and courses have solutions as we code along. Through building this pet project, it allows me to sharpen my skills and think outside the box for a real-life scenario where a modern web based solution is required. No more basic Todo Apps and Hello World projects! 
 
-I think a movie rental app sounds interesting as Blockbuster was one of the major DVD rental companies back in the 90s. As technology improved, the company could not keep up with their outdated business model and companies like Netflix have dominated the entertainment sector. This is a funny spin to the company where they pivot their traditional bricks & mortar catalogue to a modern web based system, instead of an old-school Visual Basic application :)  
+A movie rental app sounds interesting as Blockbuster was one of the major DVD rental companies back in the 90s. As technology improved, the company could not keep up with their outdated business model and companies like Netflix have dominated the entertainment sector. This is a funny spin to the company where they pivot their traditional bricks & mortar catalogue to a modern web based system, instead of an old-school Visual Basic application :)  
 
 ## Features
 
-This is a WIP and I will be adding more features and best practices as technology and frameworks evolve. I see this pet project as a blueprint for all my future work and as a means to demonstrate practical experience to employers and clients. A few features
+This is a WIP and I will be adding more features and best practices as technology and frameworks evolve. I see this pet project as a blueprint for all my future projects and as a means to demonstrate practical experience to my clients. A few features
 - MERN stack - React, MongoDB Atlas, Express and Node
 - Unit testing with Jest (WIP)
 - React Hooks (WIP)
@@ -19,6 +19,8 @@ This is a WIP and I will be adding more features and best practices as technolog
 ## Technology Stack
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Credentials (available on request)
+1. You need a `.env` file in the root location of the project for the database connection URL
 
 ## Installation (Back-end)
 
