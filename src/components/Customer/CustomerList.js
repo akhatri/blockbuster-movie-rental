@@ -79,7 +79,7 @@ class CustomerList extends Component {
           </thead>
           <tbody>
             {
-              this.state.customers.map((customer, index) => {
+              this.state.customers.length > 0 ? this.state.customers.map((customer, index) => {
                 return (
                   <tr key={customer._id}>
                     <td>
@@ -91,7 +91,11 @@ class CustomerList extends Component {
                     </td>
                   </tr>
                 )
-              })
+              }) : (
+                  <tr>
+                    <td colSpan="2">No customers!</td>
+                  </tr>
+                )
             }
           </tbody>
         </table>

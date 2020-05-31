@@ -97,29 +97,29 @@ class AddCustomer extends Component {
           <div className="form-row">
             <div className="form-group col-md-6">
               <label htmlFor="firstname">First Name</label>
-              <input type="text" className="form-control" name="firstname" placeholder="First Name" value={this.state.firstname} onChange={this.handleInputChange} />
+              <input type="text" className="form-control" name="firstname" placeholder="First Name" value={this.state.firstname} onChange={this.handleInputChange} required />
             </div>
             <div className="form-group col-md-6">
               <label htmlFor="lastname">Last Name</label>
-              <input type="text" className="form-control" name="lastname" placeholder="Last Name" value={this.state.lastname} onChange={this.handleInputChange} />
+              <input type="text" className="form-control" name="lastname" placeholder="Last Name" value={this.state.lastname} onChange={this.handleInputChange} required />
             </div>
           </div>
           <div className="form-group">
             <label htmlFor="email">Email</label>
-            <input type="email" className="form-control" name="email" placeholder="abc@example.com" value={this.state.email} onChange={this.handleInputChange} />
+            <input type="email" className="form-control" name="email" placeholder="abc@example.com" value={this.state.email} onChange={this.handleInputChange} required/>
           </div>          
           <div className="form-group">
             <label htmlFor="address">Address</label>
-            <input type="text" className="form-control" name="addressLine" placeholder="1234 Main St" value={this.state.address.addressLine} onChange={this.handleAddressChange} />
+            <input type="text" className="form-control" name="addressLine" placeholder="1234 Main St" value={this.state.address.addressLine} onChange={this.handleAddressChange} required/>
           </div>
           <div className="form-row">
             <div className="form-group col-md-6">
               <label htmlFor="city">City</label>
-              <input type="text" className="form-control" name="city" value={this.state.address.city} onChange={this.handleAddressChange} />
+              <input type="text" className="form-control" name="city" value={this.state.address.city} onChange={this.handleAddressChange} required/>
             </div>
             <div className="form-group col-md-6">
               <label htmlFor="postcode">Postcode</label>
-              <input type="text" className="form-control" name="postcode" value={this.state.address.postcode} onChange={this.handleAddressChange} />
+              <input type="text" className="form-control" name="postcode" value={this.state.address.postcode} onChange={this.handleAddressChange} required/>
             </div>
           </div>
           <button type="submit" className="btn btn-lg btn-primary">Add Customer</button>

@@ -36,7 +36,7 @@ class CustomerDetail extends Component {
     let Id = this.props.match.params.id;
 
     this.fetchCustomer(Id);
-    this.fetchMovies();
+    this.fetchMovies(Id);
 
   }
 
@@ -63,13 +63,14 @@ class CustomerDetail extends Component {
 
   }
 
-  async fetchMovies() {
+  async fetchMovies(Id) {
 
     try {
 
       let res = await axios.get('http://localhost:5000/movies');
 
       const movies = res.data;
+      let customerId = Id;
 
       const availableMovies = movies.filter((movie) => {
 
@@ -80,7 +81,7 @@ class CustomerDetail extends Component {
       });
 
       const rentedMovies = movies.filter((movie) => {
-        if (movie.rentalDetail) {
+        if (movie.rentalDetail && movie.rentalDetail.customerId === customerId) {
           return movie
         }
       })

@@ -72,16 +72,6 @@ class MovieList extends Component {
 
   }
 
-  // deleteMovie = (id) => (e) => {
-
-  //   e.preventDefault();
-
-  //   // Delete movie - send selected id to server
-  //   Axios.delete(`http://localhost:5000/movies/delete/${id}`)
-  //   window.location.reload();
-
-  // }
-
   LoadingContainer() {
 
     return (

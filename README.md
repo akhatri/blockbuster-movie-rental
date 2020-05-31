@@ -19,7 +19,21 @@ This is a WIP and I will be adding more features and best practices as technolog
 ## Technology Stack
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+
+## Installation (Back-end)
+
+1. The Express server needs to be online first to view the movie and customer details and perform CRUD operations
+2. Navigate to `backend` from the project directory
+3. run `npm install` to install dependencies
+4. run `nodemon server.js` to start the server
+
+
+## Installation (Front-end)
+
+1. run `npm install` in the root folder
+2. The following scripts are available below.
+
+## Available Scripts (Front-end)
 
 In the project directory, you can run:
 
