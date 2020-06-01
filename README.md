@@ -20,7 +20,7 @@ This is a WIP and I will be adding more features and best practices as technolog
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Credentials (available on request)
-1. You need a `.env` file in the root location of the project for the database connection URL
+1. You need a `.env` file in the root location of the backend folder in the project for the database connection URL
 
 ## Installation (Back-end)
 
